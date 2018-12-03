@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Lars Kjeldgaard" />
+
+<meta name="date" content="2018-11-25" />
+
+<title>Introduction to customsteps</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+
+
+<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23header%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%20code%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to customsteps</h1>
+<h4 class="author"><em>Lars Kjeldgaard</em></h4>
+<h4 class="date"><em>2018-11-25</em></h4>
+
+
+
+<p><code>customsteps</code> 0.7.0.0 is now available on CRAN.</p>
+<p>This is the first official release, and below I will demonstrate, how <code>customsteps</code> can be used to create recipe steps, that apply custom transformations to a data set.</p>
+<p>Note, you should already be fairly familiar with the <a href="https://CRAN.R-project.org/package=recipes"><code>recipes</code></a> package before you continue reading this post or give <code>customsteps</code> a spin!</p>
+<div id="introducing-the-customsteps-package" class="section level2">
+<h2>Introducing the <code>customsteps</code> package</h2>
+<p>Along with the <code>recipes</code> package distribution comes a number of pre-specified steps, that enables the user to manipulate data sets in various ways. The resulting data sets (/design matrices) can then be used as inputs into statistical or machine learning models.</p>
+<p>If you want to apply a specific transformation to your data set, that is not supported by the pre-specified steps, you have two options. You can write an entire <a href="https://github.com/tidymodels/recipes/blob/master/vignettes/Custom_Steps.Rmd">custom recipe step <strong>from scratch</strong></a>. This however takes quite a bit of work and code. An alternative - and sometimes better - approach is to apply the <code>customsteps</code> package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># install.packages(&quot;customsteps&quot;)</span>
+<span class="kw">library</span>(customsteps)</code></pre></div>
+<div id="customizable-higher-order-steps" class="section level3">
+<h3>Customizable Higher-Order Steps</h3>
+<p><code>customsteps</code> contains a set of customizable higher-order recipe step functions, that create specifications of recipe steps, that will transform or filter the data in accordance with custom input functions.</p>
+<p>Let me just remind you of the definition of <a href="https://en.wikipedia.org/wiki/Higher-order_function"><strong>higher-order functions</strong></a>:</p>
+<blockquote>
+<p><em>In mathematics and computer science, a higher-order function is a function that does at least one of the following: 1. takes one or more functions as arguments, 2. returns a function as its result.</em></p>
+</blockquote>
+<p>Next, I will present an example of how to use the <code>customsteps</code> package in order to create a recipe step, that will apply a custom transformation to a data set.</p>
+</div>
+</div>
+<div id="use-case-centering-and-scaling-numeric-data" class="section level2">
+<h2>Use Case: Centering and Scaling Numeric Data</h2>
+<p>Assume, that I want to transform a variable <span class="math inline">\({\mathbf{x}}\)</span> like this:</p>
+<ol style="list-style-type: decimal">
+<li>Center <span class="math inline">\({\mathbf{x}}\)</span> around an arbitrary number <span class="math inline">\(\alpha\)</span>.</li>
+<li>Scale the transformed variable, such that its standard deviation equals an arbitrary number <span class="math inline">\(\beta\)</span></li>
+</ol>
+<p>The transformed variable <span class="math inline">\(\hat{\mathbf{x}}\)</span> can then be derived as (try to do it yourself):</p>
+<p><span class="math inline">\(\hat{\mathbf{x}} = \alpha + (\mathbf{x} - \bar{\mathbf{x}})\frac{\beta}{s_\mathbf{x}}\)</span></p>
+<p>where <span class="math inline">\(\bar{\mathbf{x}}\)</span> is the mean of <span class="math inline">\(\mathbf{x}\)</span>, and <span class="math inline">\(s_\mathbf{x}\)</span> is the standard deviation of <span class="math inline">\({\mathbf{x}}\)</span>.</p>
+<p>Note that centering <span class="math inline">\({\mathbf{x}}\)</span> around 0 and scaling it in order to arrive at a standard deviation of 1 is just a special case of the above transformation with parameters <span class="math inline">\(\alpha = 0, \beta = 1\)</span>.</p>
+<div id="write-the-prep-helper-function" class="section level3">
+<h3>Write the <code>prep</code> helper function</h3>
+<p>First, I need to write a function, that estimates the relevant statistical parameters from an initial data set. I call this function the <code>prep</code> helper function.</p>
+<p>Obviously, the above transformation requires the mean <span class="math inline">\(\bar{\mathbf{x}}\)</span> and standard deviation <span class="math inline">\(s_\mathbf{x}\)</span> to be learned from the initial data set. Therefore I define a function <code>compute_means_sd</code>, that estimates the two parameters for (an arbitrary number of) numeric variables.</p>
+<p>By convention the <code>prep</code> helper function must take the argument <code>x</code>: the subset of selected variables from the initial data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(purrr)
+
+compute_means_sd &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  
+  <span class="kw">map</span>(<span class="dt">.x =</span> x, <span class="op">~</span><span class="st"> </span><span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw">mean</span>(.x), <span class="dt">sd =</span> <span class="kw">sd</span>(.x)))
+
+}</code></pre></div>
+<p>Let us see the function in action. I will apply it to a subset of the famous <code>mtcars</code> data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+
+<span class="co"># divide 'mtcars' into two data sets.</span>
+cars_initial &lt;-<span class="st"> </span>mtcars[<span class="dv">1</span><span class="op">:</span><span class="dv">16</span>, ]
+cars_new &lt;-<span class="st"> </span>mtcars[<span class="dv">17</span><span class="op">:</span><span class="kw">nrow</span>(mtcars), ]
+
+<span class="co"># learn parameters from initial data set.</span>
+params &lt;-<span class="st"> </span>cars_initial <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(mpg, disp) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">compute_means_sd</span>(.)
+
+<span class="co"># display parameters. </span>
+<span class="kw">as.data.frame</span>(params)
+<span class="co">#&gt;   mpg.mean  mpg.sd disp.mean disp.sd</span>
+<span class="co">#&gt; 1     18.2 4.14761  250.8187 113.372</span></code></pre></div>
+<p>It works like a charm. Great, we are halfway there!</p>
+</div>
+<div id="write-the-bake-helper-function" class="section level3">
+<h3>Write the <code>bake</code> helper function</h3>
+<p>Second, I have to specify a <code>bake</code> helper function, that defines how to apply the transformation to a new data set using the parameters estimated from the intial data set.</p>
+<p>By convention the <code>bake</code> helper function must take the following arguments:</p>
+<ul>
+<li><code>x</code>: the new data set, that the step will be applied to.</li>
+<li><code>prep_output</code>: the output from the <code>prep</code> helper function containing any parameters estimated from the initial data set.</li>
+</ul>
+<p>I define the function <code>center_scale</code>, that will serve as my <code>bake</code> helper function. It will center and scale variables of a new data set.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">center_scale &lt;-<span class="st"> </span><span class="cf">function</span>(x, prep_output, alpha, beta) {
+
+  <span class="co"># extract only the relevant variables from the new data set.</span>
+  new_data &lt;-<span class="st"> </span><span class="kw">select</span>(x, <span class="kw">names</span>(prep_output))
+
+  <span class="co"># apply transformation to each of these variables.</span>
+  <span class="co"># variables are centered around 'alpha' and scaled to have a standard </span>
+  <span class="co"># deviation of 'beta'.</span>
+  <span class="kw">map2</span>(<span class="dt">.x =</span> new_data,
+       <span class="dt">.y =</span> prep_output,
+       <span class="op">~</span><span class="st"> </span>alpha <span class="op">+</span><span class="st"> </span>(.x <span class="op">-</span><span class="st"> </span>.y<span class="op">$</span>mean) <span class="op">*</span><span class="st"> </span>beta <span class="op">/</span><span class="st"> </span>.y<span class="op">$</span>sd)
+  
+}</code></pre></div>
+<p>My first (sanity) check of the function is to apply it to the initial data set, that was used for estimation of the means and standard deviations.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tibble)
+<span class="co"># center and scale variables of new data set to have a mean of zero</span>
+<span class="co"># and a standard deviation of one.</span>
+cars_initial_transformed &lt;-<span class="st"> </span><span class="kw">center_scale</span>(<span class="dt">x =</span> cars_initial, 
+                                         <span class="dt">prep_output =</span> params,
+                                         <span class="dt">alpha =</span> <span class="dv">0</span>, 
+                                         <span class="dt">beta =</span> <span class="dv">1</span>)
+
+<span class="co"># display transformed variables.</span>
+cars_initial_transformed <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">compute_means_sd</span>(.) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as.data.frame</span>(.)
+<span class="co">#&gt;       mpg.mean mpg.sd    disp.mean disp.sd</span>
+<span class="co">#&gt; 1 1.731877e-16      1 7.199102e-17       1</span></code></pre></div>
+<p>Results are correct within computational precision.</p>
+<p>Also, I will just check the function out on the other subset of <code>mtcars</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># center and scale variables of new data set to have a mean of zero</span>
+<span class="co"># and a standard deviation of one.</span>
+cars_new_transformed &lt;-<span class="st"> </span><span class="kw">center_scale</span>(<span class="dt">x =</span> cars_new, 
+                                     <span class="dt">prep_output =</span> params,
+                                     <span class="dt">alpha =</span> <span class="dv">0</span>, 
+                                     <span class="dt">beta =</span> <span class="dv">1</span>)
+
+<span class="co"># display transformed variables.</span>
+cars_new_transformed <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">as.tibble</span>(.) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">head</span>(.)
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;      mpg   disp</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 -0.844  1.67 </span>
+<span class="co">#&gt; 2  3.42  -1.52 </span>
+<span class="co">#&gt; 3  2.94  -1.54 </span>
+<span class="co">#&gt; 4  3.79  -1.59 </span>
+<span class="co">#&gt; 5  0.796 -1.15 </span>
+<span class="co">#&gt; 6 -0.651  0.593</span></code></pre></div>
+<p>Looks right! All that is left now is to put the pieces together into my new very own custom recipe step.</p>
+</div>
+<div id="putting-the-pieces-together" class="section level3">
+<h3>Putting the pieces together</h3>
+<p>The function <code>step_custom_transformation</code> takes <code>prep</code> and <code>bake</code> helper functions as inputs and turns them into a complete recipe step, that can be used out of the box.</p>
+<p>I create the specification of the recipe step from the new functions <code>compute_means_sd</code> and <code>center_scale</code> by invoking <code>step_custom_transformation</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(recipes)
+rec &lt;-<span class="st"> </span><span class="kw">recipe</span>(cars_initial) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">step_custom_transformation</span>(mpg, disp,
+                             <span class="dt">prep_function =</span> compute_means_sd,
+                             <span class="dt">bake_function =</span> center_scale,
+                             <span class="dt">bake_options =</span> <span class="kw">list</span>(<span class="dt">alpha =</span> <span class="dv">0</span>, <span class="dt">beta =</span> <span class="dv">1</span>),
+                             <span class="dt">bake_how =</span> <span class="st">&quot;replace&quot;</span>)</code></pre></div>
+<p>And that is all there is to it! Easy.</p>
+<p>Note, by setting ‘bake_options’ to “replace”, the selected terms will be replaced with the transformed variables, when the recipe is baked.</p>
+<p>I will just check, that the recipe works as expected. First I will <code>prep</code>(/train) the recipe.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># prep recipe.</span>
+rec &lt;-<span class="st"> </span><span class="kw">prep</span>(rec)
+
+<span class="co"># print recipe.</span>
+rec
+<span class="co">#&gt; Data Recipe</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Inputs:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;   11 variables (no declared roles)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Training data contained 16 data points and no missing data.</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Operations:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; The following variables are used for computing transformations</span>
+<span class="co">#&gt;  and will be dropped afterwards:</span>
+<span class="co">#&gt;  mpg, disp</span></code></pre></div>
+<p>I will go right ahead and bake the new recipe.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># bake recipe.</span>
+cars_baked &lt;-<span class="st"> </span>rec <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">bake</span>(cars_new) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(mpg, disp)
+  
+<span class="co"># display results.</span>
+cars_baked <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">head</span>(.)
+<span class="co">#&gt; # A tibble: 6 x 2</span>
+<span class="co">#&gt;      mpg   disp</span>
+<span class="co">#&gt;    &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 -0.844  1.67 </span>
+<span class="co">#&gt; 2  3.42  -1.52 </span>
+<span class="co">#&gt; 3  2.94  -1.54 </span>
+<span class="co">#&gt; 4  3.79  -1.59 </span>
+<span class="co">#&gt; 5  0.796 -1.15 </span>
+<span class="co">#&gt; 6 -0.651  0.593</span></code></pre></div>
+<p>Results are as expected (same as before). Great succes!</p>
+<p>You should now be able to create your very own recipe steps to do (almost) whatever transformation to your data, that you want.</p>
+</div>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
